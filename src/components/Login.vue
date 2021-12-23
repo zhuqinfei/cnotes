@@ -1,6 +1,26 @@
 <template>
   <div id="login">
-    <h1>{{msg}}</h1>
+     <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="main"></div>
+          <div class="form">
+            <h3>创建账户</h3>
+            <div v-show="true" class="register">
+              <input type="text"  placeholder="用户名">
+              <input type="password" placeholder="密码">
+              <div class="button">创建账号</div>
+            </div>
+            <h3>登录</h3>
+            <div v-show="false" class="login">
+              <input type="text"  placeholder="输入用户名">
+              <input type="password"  placeholder="密码">
+              <div class="button"> 登录</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -48,14 +68,13 @@ export default {
   .form {
     width: 270px;
     border-left: 1px solid #ccc;
-    overflow: hidden;
     h3 {
       padding: 10px 20px;
-      margin-top: -1px;
       font-weight: normal;
       font-size: 16px;
       border-top: 1px solid #eee;
       cursor: pointer;
+
       &:nth-of-type(2){
         border-bottom: 1px solid #eee;
       }
@@ -72,14 +91,8 @@ export default {
       cursor: pointer;
     }
     .login,.register {
-      padding: 0px 20px;
+      padding: 10px 20px;
       border-top: 1px solid #eee;
-       height: 0;
-       overflow: hidden;
-       transition: height .4s;
-       &.show {
-        height: 193px;
-       }
       input {
         display: block;
         width: 100%;
