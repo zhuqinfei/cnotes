@@ -7,7 +7,7 @@
           <div class="form">
             <h3 @click="showRegister">创建账户</h3>
             <transition name="slide">
-              <div v-bind:class="{show:isShowRegister}" class="register">
+              <div v-bind:class="{ show: isShowRegister }" class="register">
                 <input type="text" v-model="register.username" placeholder="用户名" />
                 <input type="password" v-model="register.password" placeholder="密码" />
                 <p v-bind:class="{ error: register.isError }">{{ register.notice }}</p>
@@ -16,7 +16,7 @@
             </transition>
             <h3 @click="showLogin">登录</h3>
             <transition name="slide">
-              <div v-bind:class="{show:isShowLogin}" class="login">
+              <div v-bind:class="{ show: isShowLogin }" class="login">
                 <input type="text" v-model="login.username" placeholder="输入用户名" />
                 <input type="password" v-model="login.password" placeholder="密码" />
                 <p v-bind:class="{ error: login.isError }">{{ login.notice }}</p>
@@ -33,7 +33,7 @@
 <script>
 import request from '../helpers/request'
 
- request('/auth/login','post',{username:'hunger',password:'123456'})
+ request('/auth')
    .then(data=>{
        console.log(data)
    })
@@ -44,8 +44,8 @@ export default {
       isShowLogin: true,
       isShowRegister: false,
       login: {
-        username: 'hunger',
-        password: '123456',
+        username: '',
+        password: '',
         notice: '请输入用户名和密码',
         isError: true
       },
@@ -85,6 +85,10 @@ export default {
       this.register.notice = ''
 
       console.log('开始注册，用户名是:', this.register.username, '密码是:', this.register.password)
+        request('/auth/register', 'post', { username: this.register.username, password: this.register.password })
+        .then(data => {
+          console.log(data)
+        })
     },
     onLogin() {
       let result = this.validUsername(this.login.username)
@@ -105,6 +109,10 @@ export default {
       this.login.notice = ''
 
       console.log('开始登陆，用户名是:', this.login.username, '密码是:', this.login.password)
+      request('/auth/login', 'post', { username: this.login.username, password: this.login.password })
+        .then(data => {
+          console.log(data)
+        })
     },
     validUsername(username) {
       return {
@@ -189,7 +197,7 @@ export default {
       border-top: 1px solid #eee;
       height: 0;
       overflow: hidden;
-      transition: height .4s;
+      transition: height 0.4s;
       &.show {
         height: 193px;
       }
