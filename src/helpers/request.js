@@ -22,9 +22,11 @@ export default function request(url,type='GET',data={}){
            if(res.status===200){
                resolve(res.data)
            }else{
+               console.error(res.data)
                reject(res.data)
            }
        }).catch(err=>{
+           console.error({msg: '网络异常'})
            reject({msg:'网络异常'})
        })
     })
