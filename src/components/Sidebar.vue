@@ -26,12 +26,12 @@ export default {
   components: { avatar },
 
   methods: {
-    logout() {
-      Auth.logout()
-        .then(data => {
-          this.$router.push({path:'login'})
-        })
-    }
+   logout() {
+        Auth.logout()
+          .then(data => {
+            this.$router.push({ path: '/login' })
+          })
+      }
   }
 
 }
