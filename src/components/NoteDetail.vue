@@ -1,6 +1,8 @@
 <template>
   <div id="note-detail">
-    <h1>{{msg}} : {{ $route.params.noteId }}</h1>
+    <!-- /note?noteId=1&notebookId=2  获取这样参数的用$route.query-->
+    <h1>notebookId:{{$route.query.notebookId}}</h1>   
+    <h1>noteId:{{$route.query.noteId}}</h1>
   </div>
 </template>
 
