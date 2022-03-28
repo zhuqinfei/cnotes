@@ -1,13 +1,22 @@
 <template>
   <div class="note-sidebar">
-    <span class="btn add-note" >添加笔记</span>
-    <el-dropdown class="notebook-title"  @command="handleCommand" placement="bottom">
+    <span class="btn add-note">添加笔记</span>
+    <el-dropdown
+      class="notebook-title"
+      @command="handleCommand"
+      placement="bottom"
+    >
       <span class="el-dropdown-link">
         我的笔记本1 <i class="iconfont icon-down"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item v-for="notebook in notebooks" :command="notebook.id" :key="notebook">{{notebook.title}}</el-dropdown-item>
-        <el-dropdown-item  command="trash">回收站</el-dropdown-item>
+        <el-dropdown-item
+          v-for="notebook in notebooks"
+          :command="notebook.id"
+          :key="notebook"
+          >{{ notebook.title }}</el-dropdown-item
+        >
+        <el-dropdown-item command="trash">回收站</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <div class="menu">
@@ -17,8 +26,8 @@
     <ul class="notes">
       <li v-for="note in notes" :key="note">
         <router-link :to="`/note?noteId=${note.id}`">
-          <span class="date">{{note.updatedAtFriendly}}</span>
-          <span class="title">{{note.title}}</span>          
+          <span class="date">{{ note.updatedAtFriendly }}</span>
+          <span class="title">{{ note.title }}</span>
         </router-link>
       </li>
     </ul>
@@ -26,50 +35,51 @@
 </template>
 
 <script>
+import Notebooks from "../apis/notebooks";
+import Notes from "../apis/notes";
 
-  export default {
-    data() {
-      return {
-        notebooks: [
-          {
-            id: 1,
-            title: 'hello1',
-          },
-          {
-            id: 2,
-            title: 'hello2',
-            updatedAtFriendly: '3分钟前'
-          }
-        ],
-        notes:[ 
-            {
-              id: 11,
-              title: '第1个笔记',
-              updatedAtFriendly: '刚刚'
-            },
-            {
-              id: 12,
-              title: '第2个笔记',
-              updatedAtFriendly: '3分钟前'
-            },
-          ]
+window.Notes = Notes;
+
+export default {
+  created() {
+    Notebooks.getAll().then((res) => {
+      this.notebooks = res.data;
+    });
+  },
+
+  data() {
+    return {
+      notebooks: [],
+      notes: [
+        {
+          id: 11,
+          title: "第1个笔记",
+          updatedAtFriendly: "刚刚",
+        },
+        {
+          id: 12,
+          title: "第2个笔记",
+          updatedAtFriendly: "3分钟前",
+        },
+      ],
+    };
+  },
+
+  methods: {
+    handleCommand(notebookId) {
+      if (notebookId !== "trash") {
+        Notes.getAll({ notebookId }).then((res) => {
+          this.notes = res.data;
+        });
       }
     },
-
-    methods: {
-      handleCommand(cmd) {
-        console.log(cmd)
-      }
-
-    }
-  }
-
+  },
+};
 </script>
 
 
 <style lang="less" >
 @import url(../assets/css/note-sidebar.less);
-
 </style>
 
 
