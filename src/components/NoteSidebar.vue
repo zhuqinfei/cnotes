@@ -45,12 +45,7 @@ export default {
     Notebooks.getAll()
       .then((res) => {
         this.notebooks = res.data;
-        this.curBook =
-          this.notebooks.find(
-            (notebook) => notebook.id === this.$route.query.notebookId
-          ) ||
-          this.notebooks[0] ||
-          {};
+        this.curBook =this.notebooks.find(notebook=> notebook.id == this.$route.query.notebookId) || this.notebooks[0] ||{};
         return Notes.getAll({ notebookId: this.curBook.id });
       })
       .then((res) => {
