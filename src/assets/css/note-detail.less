@@ -3,6 +3,10 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    .note-detail-ct{
+      height: 100%;
+    }
   
     .note-empty{
       font-size:50px;
@@ -45,7 +49,7 @@
     }
   
     .editor {
-      flex: 1;
+      height:calc(100% - 70px);
       position: relative;
     }
     textarea, .preview {

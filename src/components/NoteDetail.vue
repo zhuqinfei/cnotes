@@ -3,21 +3,23 @@
     <note-sidebar @update:notes="(val) => (notes = val)"></note-sidebar>
     <div class="note-detail">
       <div class="note-empty" v-show="!curNote.id">请选择笔记</div>
-      <div v-show="curNote.id">
+      <div class="note-detail-ct" v-show="curNote.id">
         <div class="note-bar">
           <span> 创建日期: {{ curNote.createdAtFriendly }}</span>
           <span> 更新日期: {{ curNote.updatedAtFriendly }}</span>
           <span> {{ statusText }}</span>
           <span class="iconfont icon-delete" @click="deleteNote"></span>
-          <span class="iconfont icon-fullscreen"></span>
+          <span class="iconfont icon-fullscreen" @click="isShowPreview=!isShowPreview"></span>
         </div>
         <div class="note-title">
           <input type="text" v-model="curNote.title" @input="updateNote" @keydown="statusText='正在输入...'" placeholder="输入标题"/>
         </div>
         <div class="editor">
-          <textarea v-show="true" v-model="curNote.content" @input="updateNote" @keydown="statusText='正在输入...'"
+          <textarea v-show="!isShowPreview" v-model="curNote.content" @input="updateNote" @keydown="statusText='正在输入...'"
           placeholder="输入内容, 支持 markdown 语法"></textarea>
-          <div class="preview markdown-body" v-html="" v-show="false"></div>
+          <div class="preview markdown-body" v-html="previewContent" v-show="isShowPreview">
+            <h1>text</h1>
+          </div>
         </div>
       </div>
     </div>
@@ -29,6 +31,10 @@ import Auth from "../apis/auth";
 import NoteSidebar from "@/components/NoteSidebar";
 import Bus from "@/helpers/bus";
 import _ from 'lodash'  //导入lodash，然后引用debounce.js做节流作用
+import MarkdownIt from "markdown-it"
+
+let md = new MarkdownIt();
+var result = md.render('# markdown-it rulezz!');
 
 export default {
   components: {
@@ -38,7 +44,8 @@ export default {
     return {
       curNote: {},
       notes: [],
-      statusText:'笔记为改动'
+      statusText:'笔记为改动',
+      isShowPreview:false
     };
   },
   created() {
@@ -52,6 +59,12 @@ export default {
     });
   },
 
+  computed:{
+    previewContent(){
+      return md.render(this.curNote.content || '')
+    }
+  },
+  
   methods:{
     updateNote:_.debounce(function(){
        Notes.updateNote({noteId:this.curNote.id},{title:this.curNote.title,content:this.curNote.content})
