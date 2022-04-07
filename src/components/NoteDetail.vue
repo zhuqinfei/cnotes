@@ -47,11 +47,7 @@ export default {
     };
   },
   created() {
-    Auth.getInfo().then((res) => {
-      if (!res.isLogin) {
-        this.$router.push({ path: "/login" });
-      }
-    });
+    this.checkLogin({path: "/login" })
   },
 
   computed:{
@@ -61,18 +57,19 @@ export default {
     ]),
 
     previewContent(){
-      return md.render(`${this.curNote.content}` || '')
+      return md.render(this.curNote.content || '')
     }
   },
   
   methods:{
     ...mapMutations([
-      'setCurNote'
+      'setCurNote',
     ]),
 
     ...mapActions([
       'updateNote',
-      'deleteNote'
+      'deleteNote',
+      'checkLogin'
     ]),
 
     onUpdateNote: _.debounce(function() {
