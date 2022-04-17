@@ -44,13 +44,12 @@ let md = new MarkdownIt()
 
 export default {
   data () {
-    return {
-      belongTo: '我的笔记本',
-    }
+    return {}
   },
 
   created() {
     this.checkLogin({path:'/login'})
+    this.getNotebooks()
     this.getTrashNotes()
        .then(()=>{
          this.setCurTrashNote({curTrashNoteId:this.$route.query.noteId})
@@ -60,7 +59,8 @@ export default {
   computed: {
     ...mapGetters([
       'trashNotes',
-      'curTrashNote'
+      'curTrashNote',
+      'belongTo'
     ]),
 
     compiledMarkdown () {
@@ -77,7 +77,8 @@ export default {
       'checkLogin',
       'deleteTrashNote',
       'revertTrashNote',
-      'getTrashNotes'
+      'getTrashNotes',
+      'getNotebooks'
     ]),
 
     onDelete() {

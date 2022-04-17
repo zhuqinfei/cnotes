@@ -7,12 +7,17 @@ const state = {
 }
 
 const getters = {
-   trashNotes:state=>state.trashNotes || [],
+  trashNotes:state=>state.trashNotes || [],
 
-   curTrashNote: (state, getters) => {
+  curTrashNote: (state, getters) => {
     if(!state.curTrashNoteId) return getters.trashNotes[0] || {}
     return state.trashNotes.find(note => note.id == state.curTrashNoteId) || {}
   },
+
+  belongTo: (state, getters, rootState, rootGetters) => {  //rootGetters跨模块拿到数据
+    let notebook = rootGetters.notebooks.find(notebook => notebook.id == getters.curTrashNote.notebookId) || {}
+    return notebook.title || ''
+  }
 }
 
 const mutations = {
