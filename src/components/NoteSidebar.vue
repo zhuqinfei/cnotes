@@ -35,59 +35,63 @@
 </template>
 
 <script>
-import Notebooks from "../apis/notebooks";
 import Notes from "../apis/notes";
-import Bus from '@/helpers/bus'
-import {mapState,mapActions,mapGetters,mapMutations} from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
 window.Notes = Notes;
 
 export default {
   created() {
-      this.getNotebooks()
-        .then(() => {
-          this.setCurBook({ curBookId: this.$route.query.notebookId })
-          return this.getNotes({ notebookId: this.curBook.id})
-        }).then(() => {
-          this.setCurNote({ curNoteId: this.$route.query.noteId })
-        })
+    this.getNotebooks()
+      .then(() => {
+        this.setCurBook({ curBookId: this.$route.query.notebookId });
+        return this.getNotes({ notebookId: this.curBook.id });
+      })
+      .then(() => {
+        this.setCurNote({ curNoteId: this.$route.query.noteId });
+        this.$router.replace({
+          path: "./note",
+          query: {
+            noteId: this.curNote.id,
+            notebookId: this.curBook.id,
+          },
+        });
+      });
   },
 
   data() {
     return {};
   },
 
-  computed:{
-   ...mapGetters([
-     'notebooks',
-     'notes',
-     'curBook'
-   ])
+  computed: {
+    ...mapGetters(["notebooks", "notes", "curBook", "curNote"]),
   },
 
   methods: {
-    ...mapMutations([
-        'setCurBook',
-        'setCurNote'
-    ]),
+    ...mapMutations(["setCurBook", "setCurNote"]),
 
-    ...mapActions([
-      'getNotebooks',
-      'getNotes',
-      'addNote'
-    ]),
+    ...mapActions(["getNotebooks", "getNotes", "addNote"]),
 
     handleCommand(notebookId) {
       if (notebookId == "trash") {
         return this.$router.push({ path: "/trash" });
       }
-      this.$store.commit('setCurBook',{curBookId:notebookId})
-      this.getNotes({notebookId})
+      this.$store.commit("setCurBook", { curBookId: notebookId });
+      this.getNotes({ notebookId }).then(() => {
+        this.setCurNote();
+        this.$router.replace({
+          path: "./note",
+          query: {
+            noteId: this.curNote.id,
+            notebookId: this.curBook.id,
+          },
+        });
+      });
     },
 
-    onAddNote(){
-      this.addNote({notebookId:this.curBook.id})
-    }
+    onAddNote() {
+      this.addNote({ notebookId: this.curBook.id });
+    },
   },
 };
 </script>

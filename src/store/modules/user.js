@@ -1,8 +1,6 @@
 import Auth from '@/apis/auth.js'
 import router from '@/router'
 
-window.router=router
-
 const state = {
   user:null
 }
@@ -30,6 +28,14 @@ const actions = {
     return Auth. register({username,password})
       .then(res=>{
         commit('setUser',{user:res.data})
+      })
+  },
+
+  logout({commit},payload={path:'/login'}){
+    return Auth.logout()
+      .then(res=>{
+        commit('setUser',{user:null})
+        router.push(payload)
       })
   },
 

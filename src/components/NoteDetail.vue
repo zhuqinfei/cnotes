@@ -26,9 +26,7 @@
 </template>
 
 <script>
-import Auth from "../apis/auth";
 import NoteSidebar from "@/components/NoteSidebar";
-import Bus from "@/helpers/bus";
 import _ from 'lodash'  //导入lodash，然后引用debounce.js做节流作用
 import MarkdownIt from "markdown-it"
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
@@ -73,6 +71,7 @@ export default {
     ]),
 
     onUpdateNote: _.debounce(function() {
+      if(!this.curNote.id) return
       this.updateNote({ noteId: this.curNote.id, title: this.curNote.title, content: this.curNote.content })
          .then(data=>{
            this.statusText='已保存'
