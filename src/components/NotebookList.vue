@@ -7,7 +7,7 @@
     </header>
     <main>
       <div class="layout">
-        <h3>笔记本列表(10)</h3>
+        <h3>笔记本列表({{notebooks.length}})</h3>
         <div class="book-list">
           <router-link
             v-for="(notebook,index) in notebooks"

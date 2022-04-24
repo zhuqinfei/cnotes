@@ -43,7 +43,7 @@ export default {
   position: relative;
   width: 56px;
   text-align: center;
-  background-color: #2c333c;
+  background-color: #105d8e;
 }
 .icons {
   margin-top: 15px;

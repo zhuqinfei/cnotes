@@ -165,8 +165,8 @@ export default {
   display: flex;
   .main {
     flex: 1;
-    background: #36bc64
-      url(//cloud.hunger-valley.com/17-12-13/38476998.jpg-middle) center center
+    background: #007EC4
+      url(//pic.imgdb.cn/item/62651d42239250f7c57c8ffb.jpg) center center
       no-repeat;
     background-size: contain;
   }
@@ -187,7 +187,7 @@ export default {
       }
     }
     .button {
-      background-color: #2bb964;
+      background-color: #007EC4;
       height: 36px;
       line-height: 36px;
       text-align: center;
