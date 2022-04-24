@@ -166,7 +166,7 @@ export default {
   .main {
     flex: 1;
     background: #007EC4
-      url(//pic.imgdb.cn/item/62651d42239250f7c57c8ffb.jpg) center center
+      url(../../static/cnote.jpg) center center
       no-repeat;
     background-size: contain;
   }
